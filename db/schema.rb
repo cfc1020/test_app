@@ -11,7 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151106172926) do
+ActiveRecord::Schema.define(version: 20151123120126) do
+
+  create_table "api_access_tokens", force: :cascade do |t|
+    t.string   "token",      limit: 255, null: false
+    t.boolean  "active",     limit: 1,   null: false
+    t.string   "client_id",  limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.integer  "advertiser_report_id", limit: 4
+    t.string   "comment",              limit: 255
+    t.integer  "user_id",              limit: 4,     null: false
+    t.string   "error_message",        limit: 255
+    t.integer  "campaign_id",          limit: 4,     null: false
+    t.text     "json_report",          limit: 65535
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "reports", ["advertiser_report_id"], name: "index_reports_on_advertiser_report_id", unique: true, using: :btree
+  add_index "reports", ["user_id"], name: "index_reports_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username",               limit: 255,              null: false
@@ -27,6 +49,7 @@ ActiveRecord::Schema.define(version: 20151106172926) do
     t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "authentication_token",   limit: 255,              null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
