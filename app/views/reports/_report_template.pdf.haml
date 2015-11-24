@@ -1,0 +1,52 @@
+-# TODO: Move style to report.scss
+.overviews{ style: "display:block; clear:both; page-break-after:always;" }
+  %div= "Campaign Name:#{report_template.campaign.name}"
+  %div= "Start Date:#{report_template.campaign.start_on}"
+  %div= "End Date:#{report_template.campaign.end_on}"
+  %div= "Media Budget:#{report_template.campaign.media_budget}"
+-# %div= "Media Spent(AdvertiserReport.total_campaign_cost), "
+-# %div= "Accaunt Manage Campaign Manages and other"
+
+-# Campaign Overview
+
+-# %table.table.table-striped
+-#   %thead
+-#     %tr
+-#       %th Campaign name
+-#       %th Imps.
+-#       %th Clicks
+-#       %th Ctr
+-#       %th Conv.
+-#       %th eCPM
+-#       %th eCPC
+-#       %th eCPA
+-#       %th Spent
+
+-#   %tbody
+-#     = render @airplanes
+
+.sent-per-day
+  1.1  Spent per day
+
+  = column_chart field_split_by_day(report_template.advertiser_report_items, :total_campaign_cost), library: { width: 800 }
+
+-# TODO: Move style to report.scss
+.impressions-vs-clicks{ style: "display:block; clear:both; page-break-after:always;" }
+  1.2  Impressions vs clicks, split by day
+
+  = line_chart feild_vs_field(report_template.advertiser_report_items, :impressions, :clicks), library: { width: 800, 'curveType' => 'none' }
+
+.ecpm-vs-ecpc
+  1.3  eCPM vs eCPC, split by day
+
+  = line_chart feild_vs_field(report_template.advertiser_report_items, :ecpm, :ecpc), library: { width: 800, 'curveType' => 'none' }
+
+.ctr-by-day
+  1.4  CTR, split by day
+
+  = column_chart field_split_by_day(report_template.advertiser_report_items, :ctr), library: { width: 800 }
+
+.conversions-by-day
+  1.5  Conversions, split by day
+
+  = column_chart field_split_by_day(report_template.advertiser_report_items, :conversions), library: { width: 800 }

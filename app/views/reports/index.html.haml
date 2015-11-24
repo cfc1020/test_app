@@ -1,0 +1,8 @@
+= link_to 'new report', new_report_path
+
+-# TODO: Create report partial
+-# render @reports
+- @reports.each do |report|
+  %div
+    = "id: #{report.id}, created_at: #{report.created_at}, campaign_id: #{report.campaign_id}"
+    = link_to 'Show', report
