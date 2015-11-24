@@ -4,26 +4,27 @@
   %div= "Start Date:#{report_template.campaign.start_on}"
   %div= "End Date:#{report_template.campaign.end_on}"
   %div= "Media Budget:#{report_template.campaign.media_budget}"
--# %div= "Media Spent(AdvertiserReport.total_campaign_cost), "
--# %div= "Accaunt Manage Campaign Manages and other"
+  %div= "Media Spent(AdvertiserReport.total_campaign_cost), "
+  -# %div= "Accaunt Manage Campaign Manages and other"
 
--# Campaign Overview
+  %div Campaign Overview
 
--# %table.table.table-striped
--#   %thead
--#     %tr
--#       %th Campaign name
--#       %th Imps.
--#       %th Clicks
--#       %th Ctr
--#       %th Conv.
--#       %th eCPM
--#       %th eCPC
--#       %th eCPA
--#       %th Spent
-
--#   %tbody
--#     = render @airplanes
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Campaign name
+        %th Imps.
+        %th Clicks
+        %th Ctr
+        %th Conv.
+        %th eCPM
+        %th eCPC
+        %th eCPA
+        %th Spent
+    %tbody
+      = render 'reports/campaign', report_template: report_template
+    %tfoot
+      = render 'reports/campaign_totals', report_template: report_template
 
 .sent-per-day
   1.1  Spent per day
