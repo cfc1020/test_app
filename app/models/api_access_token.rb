@@ -14,7 +14,6 @@ class ApiAccessToken < ActiveRecord::Base
   EXPIRATION_TIME = 12.hours
   API_URL = 'api/v2/access_tokens/'
 
-
   validates_datetime :created_at, after: -> { EXPIRATION_TIME.ago }, allow_blank: true
 
   validates :client_id, :active, :token, presence: true
@@ -43,7 +42,7 @@ class ApiAccessToken < ActiveRecord::Base
     params.slice(*column_names)
   end
 
-  # 
+  # maybe need to move to concerns
   def self.platform161_client
     @platform161_client ||= ApiClient::Platform161Client.new authentication: :api_credentials
   end
