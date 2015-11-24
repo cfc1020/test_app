@@ -12,12 +12,8 @@
 
 class ApiAccessToken < ActiveRecord::Base
   EXPIRATION_TIME = 12.hours
-  INSTANCE_CODE   = 'testcost'
-  BASE_API_URL    = 'platform161.com/api/'
-  USERNAME        = 'test.api'
-  PASSWORD        = '5DRX-AF-gc4'
-  CLIENT_ID       = 'Test'
-  CLIENT_SECRET   = 'xIpXeyMID9WC55en6Nuv0HOO5GNncHjeYW0t5yI5wpPIqEHV'
+  API_URL = 'api/v2/access_tokens/'
+
 
   validates_datetime :created_at, after: -> { EXPIRATION_TIME.ago }, allow_blank: true
 
@@ -33,51 +29,22 @@ class ApiAccessToken < ActiveRecord::Base
     ApiAccessToken.generate_api_access_token.try :token
   end
 
-  # private
+  private
 
   def self.generate_api_access_token
-    response = platform161_client.api_call :post, 'api/v2/access_tokens/'
+    response = platform161_client.api_call :post, API_URL
     ## debug
     # p response
 
     create permitted_params(response.body)
   end
 
-  def self.parse_response(response)
-    JSON.parse(response).with_indifferent_access
-  end
-
   def self.permitted_params(params)
     params.slice(*column_names)
   end
 
+  # 
   def self.platform161_client
     @platform161_client ||= ApiClient::Platform161Client.new authentication: :api_credentials
-  end
-
-  # def self.conn
-  #   @@conn ||= Faraday.new(url: api_url) do |faraday|
-  #     # faraday.request  :multipart
-  #     faraday.request  :url_encoded             # form-encode POST params
-  #     faraday.response :logger                  # log requests to STDOUT
-  #     faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
-  #   end
-  # end
-
-  def self.api_url
-    "https://#{INSTANCE_CODE}.#{BASE_API_URL}"
-  end
-
-  def self.api_authentication_url
-    "#{api_url}/v2/access_tokens"
-  end
-
-  def self.credentials
-    {
-      user: USERNAME,
-      password: PASSWORD,
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET
-    }
   end
 end
