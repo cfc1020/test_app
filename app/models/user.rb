@@ -16,6 +16,7 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime
 #  updated_at             :datetime
+#  authentication_token   :string(255)      not null
 #
 
 class User < ActiveRecord::Base
@@ -25,6 +26,27 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   validates :username, presence: true
+  validates :authentication_token, presence: true
   validates :username, uniqueness: { case_sensitive: false }
   validates :username, :email, length: { in: 5..255 }, allow_blank: true
+
+  # if user destroyed
+  has_many :reports
+
+  before_validation :ensure_authentication_token
+
+  def ensure_authentication_token
+    if authentication_token.blank?
+      self.authentication_token = generate_authentication_token
+    end
+  end
+
+  private
+
+  def generate_authentication_token
+    loop do
+      token = Devise.friendly_token
+      break token unless User.where(authentication_token: token).first
+    end
+  end
 end

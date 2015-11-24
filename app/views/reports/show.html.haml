@@ -1,0 +1,16 @@
+%div= "id: #{@report.id}"
+%div= "advertiser_report_id: #{@report.advertiser_report_id}"
+%div= "comment: #{@report.comment}"
+%div= "user_name: #{@report.user.username}"
+%div= "campaign_id: #{@report.campaign_id}"
+%div= "created_at: #{@report.created_at}"
+%div= "error_message: #{@report.error_message}"
+-# TODO: Add pub/sub system
+%div= link_to 'Download pdf', @report.pdf_report_name if @report.generated?
+%div= link_to 'Home Page', root_path
+
+-# TODO: Move to partial
+-# And user ajax, without redirect
+= simple_form_for @report, url: add_comment_report_path(@report), method: :post do |f|
+  = f.input :comment
+  = f.button :submit

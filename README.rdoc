@@ -1,28 +1,38 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Algorithm:
+All reports are being generated in the background(used Sidekiq). If an error occurs, than the process starts from the beginning after some period of time(despite errors, when user's input wrong data). It will perform 25 retries over approximately 21 days. After 25 times, Sidekiq will move that job to the Dead Job queue. It's necessary to add a worker, which will process this queue(according to the schedule).
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+It would be good idea to add web-sockes(pub/sub system like Faye) in order to notify users in real time about generated reports(or if the error's occurred while generating one). That will prevent users from reloading page to get the latest information.
+
+# Dependences
+* Redis
+* Sidekiq
+* MySQL
+* Wicked_pdf
+
+# TODO
+* lock ruby version and create gemset
+
+# Startup
+
+1. Configure database.yml and sercets.yml
+2. run ```bundle install```
+3. run ```bundle exec rake db:setup```
+4. run ```redis-server```
+5. run ```bundle exec sidekiq``` with default options
+6. run ```bundle exec rails server```
+7. that's all.
+
+# API
+- GET /api/v1/reports/ with ApiToken in headers
+to get all reports for current user
+- GET /api/v1/reports/:id with ApiToken in headers
+to get report by id for current user
+
+# Problems
+* It's unclear how to get Campaign Manager and Account Manager;
+* AdvertiserReport.gross_revenues and AdvertiserReport.total_campaign_cost are unavailable from API;
+* It's not clear how to calculate those values(for Campaign and Creative overview) in the AdvertiserReport(which of them shall I sum and for which of the shall I calculate the average). It's possible to add a request for grouping by creatives, but then it's unclear how to group them by campaign. It's also possible to make two requests with different groupings, but that would be costly and might break current logic and architecture.
+

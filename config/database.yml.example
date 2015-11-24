@@ -14,8 +14,8 @@ default: &default
   encoding: utf8
   pool: 5
   timeout: 5000
-  username: root
-  password:
+  username: username
+  password: password
 
 development:
   <<: *default
@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: airport_production
-  username: airport
+  database: test_app_production
+  username: username
   password: <%= ENV['AIRPORT_DATABASE_PASSWORD'] %>

@@ -4,9 +4,19 @@
   <title>TestApp</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+
+<div>
+  <% if current_user %>
+    <%= current_user.username %>
+    <%= link_to 'sign out', destroy_user_session_path, method: :delete %>
+  <% else %>
+    <%= link_to 'sign in', new_user_session_path %>
+  <% end %>
+</div>
 
 <%= yield %>
 
