@@ -35,20 +35,37 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # View Extensions
 gem 'simple_form', '~> 3.1.0'
+gem 'chartkick', '~> 1.4.1'
+gem 'wicked_pdf', '~> 1.0.1'
+gem 'wkhtmltopdf-binary-edge', '~> 0.12.2.1'
+
+# Background
+gem 'sidekiq', '~> 4.0.1'
 
 # Auth
 gem 'devise', '~> 3.4.1'
 
+# Model Extensions
+gem 'active_model_serializers', '~> 0.10.0.rc1'
+gem 'validates_timeliness', '~> 3.0'
+
+# API REST CLIENT
+gem 'faraday', '~> 0.8.11'
+gem 'faraday_middleware', '~> 0.10.0'
+gem 'activeresource', '~> 4.0.0'
+
+gem 'render_anywhere', '~> 0.0.12', require: false
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
-  gem 'annotate'
+  gem 'byebug', '~> 8.0.0'
+  gem 'annotate', '~> 2.6.10'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
+  gem 'spring', '~> 1.4.0'
 
   gem 'better_errors', '~> 2.1.1'
   gem 'binding_of_caller', '~> 0.7.2'
