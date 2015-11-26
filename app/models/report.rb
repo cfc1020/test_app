@@ -20,6 +20,7 @@ class Report < ActiveRecord::Base
   validates :user_id, presence: true
   validates :advertiser_report_id, uniqueness: true, allow_blank: true
   validates :comment, length: { in: 0..160 }, allow_blank: true
+  validates :campaign_id, presence: true
 
   belongs_to :user
 

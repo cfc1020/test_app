@@ -70,5 +70,10 @@ group :development, :test do
   gem 'better_errors', '~> 2.1.1'
   gem 'binding_of_caller', '~> 0.7.2'
   gem 'pry-rails', '~> 0.3.3'
+
+  # Tests
+  gem 'rspec-rails', '~> 3.0'
+  gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'shoulda-matchers', '~> 3.0.1'
 end
 
