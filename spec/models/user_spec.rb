@@ -28,13 +28,13 @@ RSpec.describe User, type: :model do
 
   subject { @user }
 
-  describe 'save user' do
-    it 'create and save valid user' do
+  describe 'create user' do
+    it 'create valid user' do
       @user.save!
     end
   end
 
-  describe 'user validation' do
+  describe 'user validations' do
     it { should be_valid }
 
     it { should validate_length_of(:username).
@@ -47,15 +47,55 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of(:username) }
     it { should validate_presence_of(:email) }
 
-
     it 'validates email address' do
       should_not allow_value("qwerty@mail").for(:email)
       should_not allow_value("qwerty@.com").for(:email)
       should_not allow_value("@dsaads.com").for(:email)
     end
+
+    it 'should add authentication_token when validated' do
+      user = FactoryGirl.create(:user)
+      user.valid?
+      expect(user.authentication_token).to be_present
+    end
   end
 
-  describe 'user asscociation' do
+  it { should respond_to(:username) }
+  it { should respond_to(:email) }
+  it { should respond_to(:password) }
+  it { should respond_to(:ensure_authentication_token) }
+
+  describe 'user asscociations' do
     it { should have_many(:reports) }
+  end
+
+  describe "when email address or username is already taken" do
+    before { @user.save }
+    before(:each) { @user2 = FactoryGirl.create(:user) }
+    subject { @user2 }
+
+    describe "with same email" do
+      before { @user2.email = @user.email }
+
+      it { should be_invalid }
+
+      it 'case sensitive' do
+        @user2.email.swapcase!
+
+        should be_invalid
+      end
+    end
+
+    describe "with same username" do
+      before { @user2.username = @user.username }
+
+      it { should be_invalid }
+
+      it 'case sensitive' do
+        subject.username.swapcase!
+
+        should be_invalid
+      end
+    end
   end
 end
