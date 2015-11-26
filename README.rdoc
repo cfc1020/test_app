@@ -34,5 +34,5 @@ to get report by id for current user
 # Problems
 * It's unclear how to get Campaign Manager and Account Manager;
 * AdvertiserReport.gross_revenues and AdvertiserReport.total_campaign_cost are unavailable from API;
-* It's not clear how to calculate those values(for Campaign and Creative overview) in the AdvertiserReport(which of them shall I sum and for which of the shall I calculate the average). It's possible to add a request for grouping by creatives, but then it's unclear how to group them by campaign. It's also possible to make two requests with different groupings, but that would be costly and might break current logic and architecture.
+* It's not clear how to calculate those values(for Campaign and Creative overview) in the AdvertiserReport(which of them shall I sum and for which of them shall I calculate the average). It's possible to add a request for grouping by creatives, but then it's unclear how to group them by campaign. It's also possible to make two requests with different groupings, but that would be costly and might break current logic and architecture.
 

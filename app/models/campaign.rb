@@ -7,4 +7,6 @@ class Campaign < ActiveResource::Base
 
   has_many :creatives
   belongs_to :sales_manager
+
+  # Probably it would be nice to add validations.
 end
